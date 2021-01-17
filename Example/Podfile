@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '9.0'
+
+target 'PALCoreData_Example' do
+  pod 'PALCoreData', :path => '../'
+
+  target 'PALCoreData_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

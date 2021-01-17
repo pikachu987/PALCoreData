@@ -1,0 +1,6 @@
+framework module PALCoreData {
+  umbrella header "PALCoreData-umbrella.h"
+
+  export *
+  module * { export * }
+}

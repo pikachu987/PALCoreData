@@ -1,0 +1,16 @@
+PODS:
+  - PALCoreData (0.1.0)
+
+DEPENDENCIES:
+  - PALCoreData (from `../`)
+
+EXTERNAL SOURCES:
+  PALCoreData:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  PALCoreData: e26c4ab1935ca4834764cacab9dd3bda2e34f7f7
+
+PODFILE CHECKSUM: fbac5db4eefcb73ad6466d13e6c3aa6721554ddc
+
+COCOAPODS: 1.10.0
