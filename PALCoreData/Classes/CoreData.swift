@@ -24,14 +24,28 @@ import CoreData
 @objc (CoreDataHelper)
 open class CoreData: NSObject {
     @objc public static let shared = CoreData()
-    open var resourceName = (Bundle.main.infoDictionary?["CFBundleName"] as? String) ?? ""
+    
+    @objc static var resourceName: String {
+        get {
+            return CoreData.shared.resourceName
+        }
+        set {
+            CoreData.shared.resourceName = newValue
+        }
+    }
+
+    @objc open var resourceName = (Bundle.main.infoDictionary?["CFBundleName"] as? String) ?? ""
     
     private lazy var applicationDocumentsDirectory: URL = {
         let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return urls[urls.count-1]
     }()
     
-    private lazy var managedObjectModel: NSManagedObjectModel = {
+    @objc public static var managedObjectModel: NSManagedObjectModel {
+        return CoreData.shared.managedObjectModel
+    }
+
+    @objc public lazy var managedObjectModel: NSManagedObjectModel = {
         let modelURL = Bundle.main.url(forResource: self.resourceName, withExtension: "momd")!
         return NSManagedObjectModel(contentsOf: modelURL)!
     }()
@@ -55,6 +69,10 @@ open class CoreData: NSObject {
         return coordinator
     }()
     
+    @objc public static var context: NSManagedObjectContext {
+        return CoreData.shared.context
+    }
+    
     @objc open lazy var context: NSManagedObjectContext = {
         if #available(iOS 10.0, *){
             return self.persistentContainer.viewContext
@@ -67,6 +85,11 @@ open class CoreData: NSObject {
     }()
     
     @available(iOS 10.0, *)
+    @objc public static var persistentContainer: NSPersistentContainer {
+        return CoreData.shared.persistentContainer
+    }
+    
+    @available(iOS 10.0, *)
     @objc open lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: self.resourceName)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -76,6 +99,10 @@ open class CoreData: NSObject {
         })
         return container
     }()
+    
+    @objc open class func save() {
+        CoreData.shared.save()
+    }
     
     @objc open func save () {
         if self.context.hasChanges {
